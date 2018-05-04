@@ -1,21 +1,24 @@
 #+Title: Wabot Chrome Extension
 
 Bot under development
-* Requirements
-+ Webpack
-+ Npm
+* Roadmap
++ Refactor majority of the code, priority is files in =/web/=.
+  + Move repeated code to =helper.js= to minimise duplication.
+  + Minimise dependencies.
++ Finalise applications feature to allow for functionality too complex for a one line command.
++ Look into separating the core of the chat bot into a local application and keep the chrome extension to send / receive messages.
++ Develop Wiki page to document the design of the extension.
+
 * How to run
+Create =config.js= under the =lib= folder and follow the same format as =config_example.js=
 
 Clone the repository and run the following:
 #+BEGIN_SRC 
 npm install --save
-#+END_SRC
-
-Create =config.js= under the =lib= folder and follow the same format as =config_example.js=
-
-#+BEGIN_SRC sh 
 webpack
 #+END_SRC
+
+
 
 This will install the dependencies and also build =background.js= which is required by the chrome extension. 
 Afterwards, load the directory as an unpacked extension.
