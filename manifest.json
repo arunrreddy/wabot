@@ -1,0 +1,48 @@
+{
+    "name": "Chat Bot Chrome",
+    "description": "Chat bot chrome",
+    "version": "0.0.1",
+    "web_accessible_resources": ["web/inject.js"],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [{
+	"matches": ["https://*.whatsapp.com/"],
+	"js": ["web/content_script.js"]
+    }],
+    "externally_connectable": {
+        "matches": ["https://*.whatsapp.com/"]
+    },
+    "browser_action": {
+        "default_icon": "icon.jpeg"
+    },
+    "permissions": [
+		"tabs",
+        "activeTab",
+        "storage",
+		"nativeMessaging",
+		"https://*.whatsapp.com/",
+        "https://*.twitch.tv/",
+		"http://*.smmry.com/",
+		"https://*.githubusercontent.com/",
+		"https://*.imgur.com/",
+		"https://*.oddshot.tv/",
+		"http://*.oddshot.tv/",
+		"https://downloadgram.com/",
+        "https://*.zomato.com/*",
+		"https://*.cdninstagram.com/",
+		"http://*.alnoortv.co/",
+		"https://*.streamable.com/",
+		"https://*.streamablevideo.com/",
+		"http://*.dailymotion.com/",
+		"https://flixtc.com/",
+		"https://flixtc.r.worldssl.net/",
+		"https://*.clippit.tv/",
+		"https://*.pomfe.co/",
+		"https://*.cloudconvert.com/",
+		"https://streamja.com/",
+		"https://cdnja.r.worldssl.net/",
+		"https://*.reddit.com/"
+    ],
+    "manifest_version": 2
+}
