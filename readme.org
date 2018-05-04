@@ -8,6 +8,7 @@ The main goal of this chat bot is to simply augment the user experience by devel
 + Refactor majority of the code, priority is files in =/web/=.
   + Move repeated code to =helper.js= to minimise duplication.
   + Minimise dependencies.
+  + Explore switching to something like Typescript to stay sane
 + Finalise applications feature to allow for functionality too complex for a one line command.
 + Look into separating the core of the chat bot into a local application and keep the chrome extension to send / receive messages.
 + Develop Wiki page to document the design of the extension.
