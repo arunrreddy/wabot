@@ -1,6 +1,9 @@
 #+Title: Wabot Chrome Extension
 
 Bot under development
+* Goal
+The main goal of this chat bot is to simply augment the user experience by developing additional functionality that is otherwise not provided. These features include autodownloading media, sport events tracker, games, and commands. Ultimately the aim is to eventually make this chat bot obsolete as the platform adds features to make it redundant.
+
 * Roadmap
 + Refactor majority of the code, priority is files in =/web/=.
   + Move repeated code to =helper.js= to minimise duplication.
@@ -8,6 +11,7 @@ Bot under development
 + Finalise applications feature to allow for functionality too complex for a one line command.
 + Look into separating the core of the chat bot into a local application and keep the chrome extension to send / receive messages.
 + Develop Wiki page to document the design of the extension.
+  + This is an ongoing activity, and when redundancy is found, the changes are made to the code.
 
 * How to run
 + Clone the repository
