@@ -1,6 +1,13 @@
 #+Title: Wabot Chrome Extension
 
 Bot under development
+* How it Works?
+This extension has two main parts.
++ A background script containing the core logic of the bot waiting for incoming messages.
++ An injected script to process incoming messages.
+
+The reason for the two separate scripts is due to the limited access different parts of the Chrome extensions have. This is explained further in the Wiki.
+
 * Goal
 The main goal of this chat bot is to simply augment the user experience by developing additional functionality that is otherwise not provided. These features include autodownloading media, sport events tracker, games, and commands. Ultimately the aim is to eventually make this chat bot obsolete as the platform adds features to make it redundant.
 
