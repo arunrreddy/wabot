@@ -6,7 +6,7 @@ var reddit = require('./lib/reddit.js')();
 var codebird = require('codebird');
 var cb = new codebird;
 var _ = require("lodash");
-var debugout = require('debugout.js');
+var debugout = require('./lib/debugout.js');
 var bugout = new debugout();
 const axios = require("axios");
 var Socket = require('phoenix').Socket;
@@ -32,11 +32,9 @@ schemaBuilder.connect().then((db) => {
             var emotes = require('./lib/emotes.js').init(port, bugout);
             var gm = require('./lib/gm.js').init(db, port, bugout);
             var app_manager = require('./lib/app_manager.js').init(port, db, bugout);
-            var command_handler = require('./lib/commands/commandList.js').init(db, port, gm, app_manager, cb, bugout);
+            var command_handler = require('./lib/commands/commandList.js').init(db, port, gm, app_manager, bugout);
             var jobs = require('./lib/jobs.js')(port, bugout);
             var automatic = require('./lib/automatic.js').init(port, db, bugout);
-            //var new_soccer = require('./lib/soccer_new.js').init(port, bugout);
-            //testSoccer(port);
             port.onMessage.addListener((msg) => {
                 if (msg.type === "message") {
                     var jid = helper.getUserJidFromMessage(msg);
@@ -55,10 +53,6 @@ schemaBuilder.connect().then((db) => {
                     // Mentions
                     if (msg.object.mentionedJidList) {
                         helper.handleMentions(db, port, msg);
-                        /*if (!msg.isM) {
-                        } else {
-                            helper.handleMediaMentions(db, port, msg);
-                        }*/
                     }
                 } else if (msg.type === "contact") {
                     // Contacts

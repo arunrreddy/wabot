@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "Wabot",
   "dependencies": {
+    "ajv": "^6.5.0",
     "axios": "^0.16.2",
     "cah-cards": "^0.1.0",
     "cardeck.js": "^1.1.1",
     "chance": "^1.0.9",
     "codebird": "^2.6.0",
-    "debugout.js": "^0.5.0",
     "ent": "^2.2.0",
     "later": "^1.2.0",
     "lodash": "^4.17.4",
@@ -25,7 +25,8 @@
   "devDependencies": {
     "chai": "^4.0.1",
     "sinon-chrome": "^2.2.1",
-    "string-replace-loader": "^2.1.1"
+    "string-replace-loader": "^2.1.1",
+    "webpack": "^3.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
