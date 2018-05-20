@@ -1,6 +1,7 @@
 var schemaBuilder = require('./db/connector.js');
 var contact = require('./db/contact.js');
 var group = require('./db/group.js');
+var leaderboard = require('./db/leaderboard.js');
 var helper = require('./lib/helpers.js');
 var reddit = require('./lib/reddit.js')();
 var codebird = require('codebird');
