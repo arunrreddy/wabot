@@ -21,10 +21,15 @@ setTimeout(function() {
 	for (var key in modules) {
 		if (modules[key].exports) {
 			if (modules[key].exports.createFromData) {
-				createFromData_id = modules[key].id;
+				createFromData_id = modules[key].id.replace(/"/g, '"');
 			}
 			if (modules[key].exports.prepRawMedia) {
-				prepareRawMedia_id = modules[key].id;
+				prepareRawMedia_id = modules[key].id.replace(/"/g, '"');
+			}
+			if (modules[key].exports.default) {
+				if (modules[key].exports.default.Wap) {
+					store_id = modules[key].id.replace(/"/g, '"');
+				}
 			}
 		}
 	}
@@ -39,7 +44,8 @@ function _requireById(id) {
 // Module IDs
 var createFromData_id = 0;
 var prepareRawMedia_id = 0;
-
+var store_id = 0;
+var Store = {};
 function getJid(message) {
 	if (message.isGroupMsg) {
 		return message.author;
@@ -243,6 +249,8 @@ function getGroups(api, logging) {
 }
 
 function init() {
+	Store = _requireById(store_id).default;
+	console.log(Store);
 	var logging = chrome.runtime.connect(extensionID, {
 		name: "logging"
 	});
