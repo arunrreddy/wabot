@@ -1,6 +1,7 @@
 #+Title: Wabot Chrome Extension
 
 Bot under development. Check out the [[https://github.com/aalsuwaidi/wabot/wiki/][Wiki]] for more information.
+Join the Discord at https://discord.gg/C7Txwmd for discussion
 * How it Works?
 This extension has two main parts.
 + A background script containing the core logic of the bot waiting for incoming messages.
