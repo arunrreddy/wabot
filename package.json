@@ -29,7 +29,8 @@
 		"pretty-quick": "^1.6.0",
 		"sinon-chrome": "^2.2.1",
 		"string-replace-loader": "^2.1.1",
-		"webpack": "^3.12.0"
+		"webpack": "^3.12.0",
+		"webpack-dev": "^1.1.0"
 	},
 	"prettier": {
 		"bracketSpacing": false,

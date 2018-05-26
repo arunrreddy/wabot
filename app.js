@@ -36,11 +36,13 @@ schemaBuilder.connect().then((db) => {
 			var emotes = require("./lib/emotes.js").init(port, bugout);
 			var gm = require("./lib/gm.js").init(db, port, bugout);
 			var app_manager = require("./lib/app_manager.js").init(port, db, bugout);
-			var command_handler = require("./lib/commands/commandList.js").init(
+			var soccer = require("./lib/soccer.js").init(port, bugout, db);
+			var command_handler = require("./lib/commands.js").init(
 				db,
 				port,
 				gm,
 				app_manager,
+				soccer,
 				bugout
 			);
 			var jobs = require("./lib/jobs.js")(port, bugout);
