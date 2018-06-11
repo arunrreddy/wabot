@@ -136,14 +136,10 @@ function kickMember(group, member) {
 
 function endRequest(group_jid) {
 	var group_id = group_jid;
-	var time = 1000;
 	Store.GroupMetadata.find(group_id).then((group) => {
-		group.participants.forEach((member) => {
-			if (!member.isAdmin) {
-				setTimeout(kickMember, time, group, member.contact);
-				time += 2000;
-				//group.participants.removeParticipant(member.contact);
-			}
+		var contacts = group.participants.models.filter((contact) => { return !contact.isAdmin});
+		group.participants.removeParticipants(contacts).then(() => {
+			console.log("Removed Participant");
 		});
 	});
 }
