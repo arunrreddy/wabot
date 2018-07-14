@@ -61,8 +61,23 @@ function send_message(jid, body, message_id) {
 			var target = _.filter(Store.Msg.models, (msg) => {
 				return msg.id.id === message_id;
 			})[0];
-			var text = [body, null, target, []];
-			chat.sendMessage(body, null, target, []);
+			var text = [
+				body,
+				{
+					linkPreview: null,
+					mentionedJidList: [],
+					quotedMsg: target,
+					quotedMsgAdminGroupJid: null
+				}
+			];
+			var quotedMsg = {
+				linkPreview: null,
+				mentionedJidList: [],
+				quotedMsg: target,
+				quotedMsgAdminGroupJid: undefined
+			};
+			//chat.sendMessage(body);
+			chat.sendMessage(body, quotedMsg);
 		});
 	} else {
 		Store.Chat.find(jid).then(function(chat) {
@@ -79,7 +94,7 @@ function read_message() {
 	});
 }
 
-function send_media(jid, link, caption, msg_id) {
+function send_media(jid, link, caption, msg_id, content_type) {
 	var file = "";
 	var createFromDataClass = _requireById(createFromData_id)["default"];
 	var prepareRawMediaClass = _requireById(prepareRawMedia_id).prepRawMedia;
@@ -93,8 +108,11 @@ function send_media(jid, link, caption, msg_id) {
 				var random_name = Math.random()
 					.toString(36)
 					.substr(2, 5);
+				var type = content_type
+					? content_type
+					: xhr.getResponseHeader("Content-Type");
 				file = new File([this.response], random_name, {
-					type: xhr.getResponseHeader("content-type"),
+					type: type,
 					lastModified: Date.now()
 				});
 				// myBlob is now the blob that the object URL pointed to.
@@ -130,20 +148,75 @@ function startRequest(jid, txt, group_jid) {
 	});
 }
 
-function kickMember(group, member) {
-	group.participants.removeParticipants([member]);
+function kick_members(group, contact) {
+	console.log(group);
+	group.participants.removeParticipants([contact]).then(() => {
+		console.log("removed");
+	});
 }
-
 function endRequest(group_jid) {
 	var group_id = group_jid;
 	Store.GroupMetadata.find(group_id).then((group) => {
-		var contacts = group.participants.models.filter((contact) => { return !contact.isAdmin});
-		group.participants.removeParticipants(contacts).then(() => {
-			console.log("Removed Participant");
+		var contacts = group.participants.models.filter((contact) => {
+			return !contact.isAdmin;
+		});
+		var time = 1000;
+		contacts.forEach((contact) => {
+			setTimeout(kick_members, time, group, contact);
+			time += 3000;
+		});
+	});
+}
+function kick_all(group_jid) {
+	Store.GroupMetadata.find(group_jid).then((group) => {
+		var contacts = group.participants.models.filter((contact) => {
+			return !contact.isAdmin;
+		});
+		if (contacts.length > 1) {
+			var time = 1000;
+			contacts.forEach((contact) => {
+				setTimeout(kick_members, time, group, contact);
+				time += 3000;
+			});
+		}
+	});
+}
+function update_title(group_jid, title) {
+	Store.Chat.find(group_jid).then((group) => {
+		group.setSubject(title);
+	});
+}
+
+function getContactArray(users) {
+	var promises = users.map((jid) => {
+		return Store.Contact.find(jid);
+	});
+	return Promise.all(promises);
+}
+
+function group_invite(group_jid, users) {
+	getContactArray(users).then((contacts) => {
+		Store.GroupMetadata.find(group_jid).then((group) => {
+			console.log("inviting " + contacts.length);
+			group.participants.addParticipants(contacts);
 		});
 	});
 }
 
+function lobby_create(api) {
+	Store.Contact.find(Store.Conn.me).then((contact) => {
+		Store.Chat.createGroup(
+			"new_lobby",
+			undefined,
+			undefined,
+			[contact],
+			undefined,
+			undefined,
+			undefined,
+			undefined
+		).then(() => {});
+	});
+}
 function apiChannel(logging) {
 	var api = chrome.runtime.connect(extensionID, {
 		name: "api"
@@ -176,14 +249,40 @@ function apiChannel(logging) {
 				level: "INFO",
 				text: "Ending Request"
 			});
-			endRequest();
+			endRequest(msg.group_jid);
 		} else if (msg.type === "send_media") {
 			logging.postMessage({
 				level: "INFO",
 				text: "Sending Media"
 			});
 			msg.msg_id = msg.msg_id ? msg.msg_id : null;
-			send_media(msg.to, msg.url, msg.text, msg.msg_id);
+			send_media(msg.to, msg.url, msg.text, msg.msg_id, msg.content_type);
+		} else if (msg.type === "kick_all") {
+			logging.postMessage({
+				level: "INFO",
+				text: "Kicking all members " + msg.group_jid
+			});
+			setTimeout(kick_all, 10000, msg.group_jid);
+			//kick_all(msg.group_jid);
+		} else if (msg.type === "update_title") {
+			logging.postMessage({
+				level: "INFO",
+				text: "Updating title for " + msg.group_jid
+			});
+			update_title(msg.group_jid, msg.title);
+		} else if (msg.type === "lobby_create") {
+			logging.postMessage({
+				level: "INFO",
+				text: "Creating Group "
+			});
+			// CREATE GROUP
+			lobby_create();
+		} else if (msg.type === "group_invite") {
+			logging.postMessage({
+				level: "INFO",
+				text: "Inviting members"
+			});
+			group_invite(msg.jid, msg.members);
 		}
 	});
 	return api;
@@ -220,6 +319,14 @@ function getGroups(api, logging) {
 		console.log(group);
 		Store.GroupMetadata.find(group.id).then((group) => {
 			var jid = group.id;
+			Store.Chat.find(jid).then((chat) => {
+				if (chat.title() === "new_lobby") {
+					api.postMessage({
+						type: "new_lobby",
+						jid: jid
+					});
+				}
+			});
 			group.participants.models.push = function(item) {
 				Array.prototype.push.call(this, item);
 				this.onPush(item);

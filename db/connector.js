@@ -1,5 +1,5 @@
 var lf = require("lovefield");
-var schemaBuilder = lf.schema.create("bot", 13);
+var schemaBuilder = lf.schema.create("bot", 14);
 
 schemaBuilder
 	.createTable("Contact")
@@ -29,6 +29,11 @@ schemaBuilder
 	.createTable("Leaderboard")
 	.addColumn("group_jid", lf.Type.STRING)
 	.addColumn("games", lf.Type.OBJECT)
+	.addPrimaryKey(["group_jid"]);
+
+schemaBuilder
+	.createTable("Lobby")
+	.addColumn("group_jid", lf.Type.STRING)
 	.addPrimaryKey(["group_jid"]);
 
 module.exports = schemaBuilder;
