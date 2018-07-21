@@ -25,6 +25,7 @@ The main goal of this chat bot is to simply augment the user experience by devel
 * How to run
 + Clone the repository
 + Create =config.js= under the =lib= folder and follow the same format as =config_example.js=
+  + This is where you add the whitelist for the groups that your chatbot can be in. If the group is not in the whitelist, the bot will automatically leave.
 + Run the following:
 #+BEGIN_SRC 
 npm install --save
