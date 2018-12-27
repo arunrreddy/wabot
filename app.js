@@ -70,7 +70,7 @@ schemaBuilder.connect().then((db) => {
 							bugout.log("[MESSAGE - " + jid + "]: " + msg.object.body);
 						}
 					}
-					emotes.process(msg);
+					//emotes.process(msg);
 					automatic.process(msg);
 					gm.handleMessage(msg);
 					app_manager.handle_message(msg);
@@ -78,6 +78,19 @@ schemaBuilder.connect().then((db) => {
 					// Mentions
 					if (msg.object.mentionedJidList) {
 						helper.handleMentions(db, port, msg);
+					}
+					if (
+						msg.object.body === "!test" &&
+						msg.object.from === config.admin_jid
+					) {
+						helper.sendMedia(
+							port,
+							"https://i.imgur.com/ry81RK0.png",
+							config.admin_jid,
+							"test",
+							msg.object.id.id,
+							"application/xhtml+html"
+						);
 					}
 				} else if (msg.type === "contact") {
 					// Contacts
