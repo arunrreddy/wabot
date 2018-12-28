@@ -1,4 +1,4 @@
-setTimeout(function() {
+function get_store() {
 	// Returns promise that resolves to all installed modules
 	function getAllModules() {
 		return new Promise((resolve) => {
@@ -36,7 +36,7 @@ setTimeout(function() {
 
 	console.log("CreateFromDataID = " + createFromData_id);
 	console.log("PrepRawMediaID = " + prepareRawMedia_id);
-}, 5000);
+}
 
 function _requireById(id) {
 	return webpackJsonp([], null, [id]);
@@ -288,6 +288,12 @@ function apiChannel(logging) {
 	return api;
 }
 function getContacts(api) {
+	Store.Contact.models.forEach((cntact) => {
+		api.postMessage({
+			type: "contact",
+			contact: cntact
+		});
+	});
 	Store.Contact.models.push = function(item) {
 		Array.prototype.push.call(this, item);
 		this.onPush(item);
@@ -403,7 +409,3 @@ function init() {
 		}
 	};
 }
-
-setTimeout(function() {
-	init();
-}, 7000);

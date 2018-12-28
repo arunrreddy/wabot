@@ -14,20 +14,10 @@ const axios = require("axios");
 var Socket = require("phoenix").Socket;
 var config = require("./lib/config.js");
 bugout.useTimestamps = true;
-bugout.useLocalStorage = true;
+bugout.useLocalStorage = false;
 require("./lib/log.js")(bugout);
 // Initialise Database
 var whitelist = config.whitelist;
-/*var local = chrome.runtime.connectNative("wa");
-local.onMessage.addListener((msg) => {
-	console.log(msg);
-});
-
-local.onDisconnect.addListener(() => {
-	console.log("disconnect");
-});
-local.postMessage({text: "Test"});
-local.postMessage({text: "Test"}); */
 schemaBuilder.connect().then((db) => {
 	chrome.runtime.onConnectExternal.addListener((port) => {
 		if (

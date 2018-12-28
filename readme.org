@@ -1,5 +1,8 @@
 #+Title: Wabot Chrome Extension
 
+* Branch
+This branch is to add Selenium and Docker to run the bot
+
 Bot under development. Check out the [[https://github.com/aalsuwaidi/wabot/wiki/][Wiki]] for more information.
 Join the Discord at https://discord.gg/C7Txwmd for discussion
 * How it Works?

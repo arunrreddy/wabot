@@ -32,7 +32,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 		x.onload = function() {
 			if (this.status == 200) {
 				var myurl = window.URL.createObjectURL(this.response);
-				console.log(myurl);
 				sendResponse({
 					type: "media_success",
 					url: myurl
@@ -44,8 +43,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 			}
 		};
 		x.send();
-	} else if (message.type === "nor") {
-		chrome.tabs.create({url: message.url});
 	}
 	return true;
 });
