@@ -1,48 +1,31 @@
 #+Title: Wabot Chrome Extension
 
-* Branch
-This branch is to add Selenium and Docker to run the bot
-
-Bot under development. Check out the [[https://github.com/aalsuwaidi/wabot/wiki/][Wiki]] for more information.
+Check out the [[https://github.com/aalsuwaidi/wabot/wiki/][Wiki]] for more information.
 Join the Discord at https://discord.gg/C7Txwmd for discussion
-* How it Works?
-This extension has two main parts.
-+ A background script containing the core logic of the bot waiting for incoming messages.
-+ An injected script to process incoming messages.
 
-The reason for the two separate scripts is due to the limited access different parts of the Chrome extensions have. This is explained further in the Wiki.
+This branch is to add Selenium and Docker to run the bot, the README will be updated to include new instructions.
 
-* Goal
-The main goal of this chat bot is to simply augment the user experience by developing additional functionality that is otherwise not provided. These features include autodownloading media, sport events tracker, games, and commands. Ultimately the aim is to eventually make this chat bot obsolete as the platform adds features to make it redundant.
+*To migrate existing setup:* Replace the mounted volume path to the existing Google Chrome profile, it is usually stored in =~/.config/google-chrome/=
 
-* Roadmap
-+ Refactor majority of the code, priority is files in =/web/=.
-  + Move repeated code to =helper.js= to minimise duplication.
-  + Minimise dependencies.
-  + Explore switching to something like Typescript to stay sane
-+ Finalise applications feature to allow for functionality too complex for a one line command.
-+ Look into separating the core of the chat bot into a local application and keep the chrome extension to send / receive messages.
-+ Develop Wiki page to document the design of the extension.
-  + This is an ongoing activity, and when redundancy is found, the changes are made to the code.
+*NOTE*: To login to WhatsApp Web, connect to the container's VNC session and scan the QR code, PyQRCode wasn't working when trying to display the QR code in the terminal.
 
 * How to run
 + Clone the repository
-+ Create =config.js= under the =lib= folder and follow the same format as =config_example.js=
++ Create =config.js= in the cloned repository and follow the same format as =config_example.js=
   + This is where you add the whitelist for the groups that your chatbot can be in. If the group is not in the whitelist, the bot will automatically leave.
-+ Run the following:
++ Run the following: (Replacing the specified path with your choice)
 #+BEGIN_SRC 
-npm install --save
-webpack
+docker run -v /{REPLACE}/{WITH}/{CUSTOM}/{PATH}:/app/profile/ -it wabot
 #+END_SRC
 
-This will install the dependencies and also build =background.js= which is required by the chrome extension. 
-Afterwards, load the directory as an unpacked extension.
+The mounted volume is to store the Google Chrome profile that is used to retain the logged in session between runs. 
 
-* TODO Todo
-- [ ] Add support for YouTube videos/ +Streamable+ / +Oddshot+ / +Instagram+
-- [ ] Add more games 
-- [ ] Extension UI for easier configuration
-- [ ] Better logging
+
+
+
+
+
+
 
 * Terms and conditions
 You will NOT use this API for marketing purposes (spam, etc.).
