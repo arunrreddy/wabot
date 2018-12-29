@@ -1,5 +1,5 @@
 {
-	"name": "wabot",
+	"name": "wabot_extension",
 	"version": "0.0.1",
 	"description": "Wabot",
 	"dependencies": {
@@ -29,16 +29,9 @@
 		"pretty-quick": "^1.8.0",
 		"sinon-chrome": "^2.2.1",
 		"string-replace-loader": "^2.1.1",
-		"webpack": "^3.12.0",
+		"webpack": "^4",
+		"webpack-cli": "^3.1.2",
 		"webpack-dev": "^1.1.1"
-	},
-	"prettier": {
-		"bracketSpacing": false,
-		"useTabs": true,
-		"arrowParens": "always"
-	},
-	"scripts": {
-		"precommit": "pretty-quick --staged"
 	},
 	"repository": {
 		"type": "git",
